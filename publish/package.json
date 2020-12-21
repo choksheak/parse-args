@@ -1,0 +1,49 @@
+{
+  "name": "@choksheak/parse-args",
+  "version": "1.0.0",
+  "description": "Tiny and easy-to-use command-line arguments parser.",
+  "main": "index.js",
+  "typings": "index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/choksheak/parse-args"
+  },
+  "homepage": "https://github.com/choksheak/parse-args",
+  "keywords": [
+    "parse",
+    "parser",
+    "args",
+    "argv",
+    "arguments",
+    "variables",
+    "cli",
+    "cmd",
+    "command",
+    "command-line",
+    "minimist",
+    "optimist",
+    "yargs",
+    "yargs-parser",
+    "mri",
+    "nopt",
+    "dargs",
+    "flags",
+    "options",
+    "ts",
+    "types",
+    "typed",
+    "typescript",
+    "validate",
+    "validation",
+    "check",
+    "checking"
+  ],
+  "scripts": {
+    "test": "node test.js"
+  },
+  "author": {
+    "name": "ChokSheak Lau",
+    "email": "choksheak@gmail.com"
+  },
+  "license": "ISC"
+}
