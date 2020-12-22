@@ -24,9 +24,15 @@ There are many argument parsing libraries out there, and many are quite similar,
 11. Option to either use imperative or object-oriented syntax style (depending on which style better fits the look-and-feel of your code base).
 12. Fun to use! (IMHO)
 
-Arguments-parsing is a non-standardized world with many caveats and corner cases. This library tries to avoid all that and stick to the basic minimum syntax for a clean-working CLI.
+Arguments-parsing is a non-standardized world with many caveats and corner cases. This library tries to avoid all that and stick to the basic minimum syntax for a clean-working CLI (command-line interface).
 
 In summary, this library aims to be perfect for use in your CLI if you want something that is easy-to-use and can generate the help text automatically for you, thus saving you a lot of time!
+
+## Design philosophy
+
+parse-args is designed to offer full command line parsing control to the developer. This means that it returns all the parsed arguments, but does not handle much before or after that. Most CLIs have their own custom logic with dealing with the arguments, and parse-args fully supports that paradigm. parse-args does not box you into any particular paradigm, but frees you up to add whatever logic you need for your application without creating a burden to you.
+
+For example, in the most basic use case, you will just call `parseArgs()` without any arguments (using the default behavior) and get the parsed results. Then you will interpret the parsed results in whatever way you need for your application.The custom logic needed here is hard if not impossible to standardize, and parse-args does not attempt in any way to standardize it.
 
 ## Simple example
 
