@@ -96,10 +96,56 @@ The syntax should feel somewhat familiar to most bash/linux command-line users. 
 
 ## API
 
+The available API methods are:
 
+**CommonJS**
+```js
+const { parseArgs, printHelp, getHelpText, setOutputPrinter, ArgsParser } = require("parse-args");
+```
+**ES6 / Typescript**
+```js
+import { parseArgs, printHelp, getHelpText, setOutputPrinter, ArgsParser } from "parse-args";
+```
+
+| API Method      | Description     |
+| :------------- | :----------: |
+| parseArgs | Parse the node process arguments, or the given arguments.<br>parseArgs(options: ParseArgsOptions)<br>parseArgs(argv: string[], options: ParseArgsOptions)<br>Returns the parsed result object of type ParseArgsResult. |
+| printHelp   | Print the help text using `console.log()`, or the output printer set using `setOutputPrinter()`.<br>printHelp(options: ParseArgsOptions) |
+| getHelpText | Get the help text string.<br>getHelpText(options: ParseArgsOptions) |
+| setOutputPrinter | Set the output printer for printing the help text and the error messages.<br>setOutputPrinter(log: ((s: string) => void)) |
+| ArgsParser | Class-based implementation of the arguments parser.<br>`const argsParser = new ArgsParser(options /* : ParseArgsOptions */);` |
+
+### ArgsParser class
+The class-based arguments-parser does the exact same thing as the imperative-based functions. The class definition is as follows:
+
+```ts
+class ArgsParser {
+  constructor(options?: ParseArgsOptions);
+
+  parse(argv?: string[]): ParseArgsResult;
+
+  getHelpText(): string;
+
+  printHelp(): void;
+}
+```
+
+Using the class-based implementation should be quite straightforward as well:
+```ts
+import { ArgsParser } from "parse-args";
+
+const options: ParseArgsOptions = {...};
+const argsParser = new ArgsParser(options);
+
+const result: ParseArgsResult = argsParser.parse();
+console.log("result = " + JSON.stringify(result));
+
+argsParser.printHelp();
+console.log("Help text = " + argsParser.getHelpText());
+```
 
 ## Options
 
 ## Summary
 
-Thanks for reading this and hope it meets all your command-line parsing needs! 😸
+Thanks for reading this and I hope this small utility meets all your command-line parsing needs! 😸
