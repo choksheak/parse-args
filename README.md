@@ -81,7 +81,22 @@ Have fun seeing all your files!
 args = {"help":true}
 ```
 
+## Command line syntax
+
+The syntax should feel somewhat familiar to most bash/linux command-line users. The following rules describe the syntax:
+
+1. Options beginning with `--` is followed by the long name, optionally followed by the argument value. E.g. `--clean`, `--name=John`.
+2. Options beginning with `-` is followed by one or more short names, or option aliases. E.g. `-a` gives you `{a:true}`, `-abc` gives you `{a:true, b:true, c:true}`.
+3. Untyped arguments default to boolean type (true/false), but any string value may be attached to it. E.g. `-a` gives you `{a:true}`, and `-a=123` gives you `{a:"123"}.
+4. Option values may only be specified using the `=` sign. E.g. `-a=1` works but `-a 1` does not attach the value `1` to `-a`.
+4. All arguments after a `--` argument are treated as non-options. E.g. `-a -b -- -c --` gives you `{a:true, b:true, nonOptions:["-c", "--"]}`.
+5. Non-option arguments may appear in any order, and will be returned as a single list. E.g. `a -b c -d e` gives you `{b:true, d:true, nonOptions:["a","c","e"]}`.
+6. Option names may not begin with `-` (dash) or `_` (underscore). Underscore is reserved for API options.
+7. The option names "nonOptions" and "errors" are reserved for use in the returned result.
+
 ## API
+
+
 
 ## Options
 
