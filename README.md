@@ -17,7 +17,7 @@ There are many argument parsing libraries out there, and many are quite similar,
 4. Typescript typings included.
 5. Easy to understand user interface (hopefully!).
 6. No super advanced features that I will never need.
-7. No confusing syntax, especially with the attachments of values to options (or not) (see below for more details).
+7. No confusing syntax, especially with the attachments of values to options (or not). I.e. is this argument an option value, or a separate argument from the option?
 8. Intuitive and straightforward syntax.
 9. Generates the help text automatically in a customizable way.
 10. Able to attach user-specific arguments-checking to the options.
@@ -32,7 +32,7 @@ In summary, this library aims to be perfect for use in your CLI if you want some
 
 parse-args is designed to offer full command line parsing control to the developer. This means that it returns all the parsed arguments, but does not handle much before or after that. Most CLIs have their own custom logic with dealing with the arguments, and parse-args fully supports that paradigm. parse-args does not box you into any particular paradigm, but frees you up to add whatever logic you need for your application without creating a burden to you.
 
-For example, in the most basic use case, you will just call `parseArgs()` without any arguments (using the default behavior) and get the parsed results. Then you will interpret the parsed results in whatever way you need for your application.The custom logic needed here is hard if not impossible to standardize, and parse-args does not attempt in any way to standardize it.
+For example, in the most basic use case, you will just call `parseArgs()` without any arguments (using the default behavior) and get the parsed results. Then you will interpret the parsed results in whatever way you need for your application. The custom logic needed here is hard if not impossible to standardize, and parse-args does not attempt in any way to standardize it.
 
 ## Simple example
 
@@ -190,9 +190,10 @@ Any option that begins with an underscore `_` is an "API option". Any other stri
 | `_ignoreUnknowns` | boolean (default to false) | If the parsing encountered any unknown options (any user options not given in the `options` object), then it will be discarded and not included in the returned result. |
 | `_help` | boolean (default to false) | When true, the long option `help` with alias `?` will be automatically added to the list of user options. So if the user specifies `--help` or `-?` on the command line, parse-args will print the help text. |
 | `_helpTemplate` | string (default to empty) | Any string that will be included in the help text. If the string `{OPTIONS}` is found within the template, then it will be replaced with the value of `getHelpText(options)`. If `{OPTIONS}` does not exist, then the template string will be printed first (without a newline character), and then the value of `getHelpText(options)` will be printed. (Actually the two strings will be concatenated and then printed all at once.) |
-| Any other string | object of type `ParseArgsOptionConfig` | This string key will become the long name of the option. This string cannot begin with a dash or underscore character. The value is an object specifying the properties of this option. |
+| Any other string | object of type `ParseArgsOptionConfig` | This string key will become the long name of the option. This string cannot begin with a dash or underscore character, and cannot be "nonOptions" or "error" which are reserved for the returned result. The value is an object specifying the properties of this option. |
 
 ### ParseArgsOptionConfig type
+
 For each user option (option that the user has added), the option can be configured using the ParseArgsOptionConfig object.
 
 In Typescript, just import the `ParseArgsOptionConfig` type to get static type-checking for your option config object.
@@ -210,6 +211,22 @@ import { ParseArgsOptionConfig } from "parse-args";
 | isValid | (value: T) => boolean | Callback function to check whether the given value is valid or not. This function returns true when the value is valid, or false otherwise. |
 | validationError | string | ((value: T) => string) | Either a string or a callback function to return a string. This error will be included in the list of error messages when `isValid` returns false. If `isValid` is not set, then `validationError` will be unused. |
 | allowedValues | `T[]` | Array of values that can be specified. Note that you can perform the same check using `isValid`, but this config is just a convenience for a potentially common use case of limiting the input to a list of possible values, like an enum. |
+
+## Returned result
+
+In Typescript, just import the `ParseArgsResult` type to get static type-checking for the returned object.
+```
+import { ParseArgsResult } from "parse-args";
+```
+
+Note that `nonOptions` and `errors` are reserved option names and cannot be used as user option names. i.e. you cannot have a options config that recognizes `--nonOptions` and `--errors`. However you can still read these option names as unknown options.
+
+| Property | Data type | Description |
+| :--------| :-------- | :---------- |
+| nonOptions | string[] | Any non-options arguments (does not begin with dash), including all arguments after the `--` argument and excluding the `--` argument, is returned as an array of strings. If there are no non-option arguments, then this property will not be set.
+| errors | string[] | List of all errors encountered during parsing. If there are no errors, then this property will not be set. |
+| Any other string | unknown | Value of the specified option. Note that if a known option is specified using the alias, then we will set the value according to the long option name instead of the alias. E.g. If the long name is "format", and the alias is "f", and `-f=xyz` is specified, then the returned property is `format: "xyz"` and not `f: "xyz"`. |
+
 
 ## Confusion with option values attachment
 
