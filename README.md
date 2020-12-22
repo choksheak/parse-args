@@ -1,11 +1,14 @@
 # parse-args 🖥️
 Yet another command-line arguments parser that is minimalist and easy to use!
 
+## Installation
+
 **Install Prod:** `npm i @choksheak/parse-args`
 
 **Install Dev :** `npm i -D @choksheak/parse-args`
 
 ## Why use this library?
+
 There are many argument parsing libraries out there, and many are quite similar, but none of them is quite like this one. I wanted something that lets me deal with the absolute minimum amount of hassle in the setup and use of the library, and also works in a simple-to-understand way. Therefore I decided to write one on my own for some of the following reasons:
 
 1. Works out-of-the-box with no configuration.
@@ -18,25 +21,31 @@ There are many argument parsing libraries out there, and many are quite similar,
 8. Intuitive and straightforward syntax.
 9. Generates the help text automatically in a customizable way.
 10. Able to attach user-specific arguments-checking to the options.
-11. Option to either use imperative or object-oriented syntax style (depending on what fits your code base).
+11. Option to either use imperative or object-oriented syntax style (depending on which style better fits the look-and-feel of your code base).
+12. Fun to use! (IMHO)
 
 Arguments-parsing is a non-standardized world with many caveats and corner cases. This library tries to avoid all that and stick to the basic minimum syntax for a clean-working CLI.
 
+In summary, this library aims to be perfect for use in your CLI if you want something that is easy-to-use and can generate the help text automatically for you, thus saving you a lot of time!
+
 ## Simple example
+
 Javascript: `print-args.js`
 ```js
 const { parseArgs } = require("parse-args");
+
 const args = parseArgs();
 console.log("args = " + JSON.stringify(args));
 ```
 
-Shell:
+Shell usage and output:
 ```sh
 > node print-args.js --long -a -bcd --format=%s file1 file2
 {"long":true,"a":true,"b":true,"c":true,"d":true,"format":"%s","nonOptions":["file1","file2"]}
 ```
 
 ## Advanced example
+
 Javascript: `ls.js`
 ```js
 const { parseArgs } = require("parse-args");
@@ -61,7 +70,7 @@ const args = parseArgs({
 console.log("args = " + JSON.stringify(args));
 ```
 
-Shell:
+Shell usage and output:
 ```sh
 > node ls.js --help
 
@@ -102,20 +111,22 @@ The available API methods are:
 ```js
 const { parseArgs, printHelp, getHelpText, setOutputPrinter, ArgsParser } = require("parse-args");
 ```
+
 **ES6 / Typescript**
 ```js
 import { parseArgs, printHelp, getHelpText, setOutputPrinter, ArgsParser } from "parse-args";
 ```
 
-| API Method      | Description     |
-| :------------- | :----------: |
-| parseArgs | Parse the node process arguments, or the given arguments.<br>parseArgs(options: ParseArgsOptions)<br>parseArgs(argv: string[], options: ParseArgsOptions)<br>Returns the parsed result object of type ParseArgsResult. |
-| printHelp   | Print the help text using `console.log()`, or the output printer set using `setOutputPrinter()`.<br>printHelp(options: ParseArgsOptions) |
+| API Method | Description |
+| :--------- | :---------- |
+| parseArgs  | Parse the node process arguments, or the given arguments.<br>parseArgs(options: ParseArgsOptions)<br>parseArgs(argv: string[], options: ParseArgsOptions)<br>Returns the parsed result object of type ParseArgsResult. |
+| printHelp  | Print the help text using `console.log()`, or the output printer set using `setOutputPrinter()`.<br>printHelp(options: ParseArgsOptions) |
 | getHelpText | Get the help text string.<br>getHelpText(options: ParseArgsOptions) |
-| setOutputPrinter | Set the output printer for printing the help text and the error messages.<br>setOutputPrinter(log: ((s: string) => void)) |
+| setOutputPrinter | Set the output printer for printing the help text and the error messages. Note that you can also use this function to save the printed text as a string or save into a file etc. This could be useful for unit testing etc.<br>setOutputPrinter(log: ((s: string) => void)) |
 | ArgsParser | Class-based implementation of the arguments parser.<br>`const argsParser = new ArgsParser(options /* : ParseArgsOptions */);` |
 
 ### ArgsParser class
+
 The class-based arguments-parser does the exact same thing as the imperative-based functions. The class definition is as follows:
 
 ```ts
@@ -144,8 +155,16 @@ argsParser.printHelp();
 console.log("Help text = " + argsParser.getHelpText());
 ```
 
+The main differences between the class-based implementation and the imperative-based approaches are:
+
+1. The function name to parse arguments is `[instance].parse()` instead of `parseArgs()`.
+2. The `options` object is passed in only once at the constructor, and not passed in at each function.
+3. `setOutputPrinter()` only exists at the global level and not in the ArgsParser class.
+
 ## Options
+
+
 
 ## Summary
 
-Thanks for reading this and I hope this small utility meets all your command-line parsing needs! 😸
+Thanks for reading this and I hope this small utility meets all your command-line parsing needs! If not, please feel free to drop me an email at choksheak@gmail.com. 😸
