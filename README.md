@@ -17,7 +17,7 @@ There are many argument parsing libraries out there, and many are quite similar,
 4. Typescript typings included.
 5. Easy to understand user interface (hopefully!).
 6. No super advanced features that I will never need.
-7. No confusing syntax, especially with the attachments of values to options (or not).
+7. No confusing syntax, especially with the attachments of values to options (or not) (see below for more details).
 8. Intuitive and straightforward syntax.
 9. Generates the help text automatically in a customizable way.
 10. Able to attach user-specific arguments-checking to the options.
@@ -198,12 +198,27 @@ import { ParseArgsOptionConfig } from "parse-args";
 | :------| :-------- | :---------- |
 | type | string (OptionTypes) | Data type. One of "string", "number", "integer", "boolean". |
 | alias | string (one character) | Alias for the long option name. E.g. if the alias is "a", then the option can be specified using `-a`. |
-| defaultValue | T (as specified in `type`) | If the option is not specified, then set this value for the option. Note that `defaultValue` and `required` cannot be both set at the same time. |
-| required | boolean | If true, then not having this option specified is an error. Note that `defaultValue` and `required` cannot be both set at the same time. |
+| defaultValue | T (as specified in `type`) | If the option is not specified, then set this value for the option. Note that `defaultValue` and `required: true` cannot be both set at the same time. |
+| required | boolean | If true, then not having this option specified is an error. Note that `defaultValue` and `required: true` cannot be both set at the same time. |
 | description | string | Human-readable text describing this option. Will be printed in the help text. |
 | isValid | (value: T) => boolean | Callback function to check whether the given value is valid or not. This function returns true when the value is valid, or false otherwise. |
 | validationError | string | ((value: T) => string) | Either a string or a callback function to return a string. This error will be included in the list of error messages when `isValid` returns false. If `isValid` is not set, then `validationError` will be unused. |
 | allowedValues | `T[]` | Array of values that can be specified. Note that you can perform the same check using `isValid`, but this config is just a convenience for a potentially common use case of limiting the input to a list of possible values, like an enum. |
+
+## Confusion with option values attachment
+
+In some CLIs, you can specify option values either using an equal sign, or separating the option and the value with a space. E.g.
+```sh
+node cli.js -f=file.txt  # using equal sign
+node cli.js -f file.txt  # separate with space
+```
+
+The problem is that it might not be clear if the option does take a value or not. E.g. for `node cli.js -f file.txt`, should it produce 1 or 2?
+
+1. { f: "file.txt" }
+2. { f: true, nonOptions: ["file.txt"] }
+
+By looking at the command without any background knowledge, there is no way to tell. Therefore, it is much less confusing (IMHO) for the end-user if we always use the equal sign to attach the option value, and treat a space as separating between unrelated arguments.
 
 ## Summary
 
