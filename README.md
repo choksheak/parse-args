@@ -7,7 +7,7 @@ Yet another command-line arguments parser that is minimalist and easy to use!
 
 **Install Dev :** `npm i -D @choksheak/parse-args`
 
-## Why use this library?
+## Why use _parse-args_?
 
 There are many argument parsing libraries out there, and many are quite similar, but none of them is quite like this one. I wanted something that lets me deal with the absolute minimum amount of hassle in the setup and use of the library, and also works in a simple-to-understand way. Therefore I decided to write one on my own for some of the following reasons:
 
@@ -30,9 +30,9 @@ In summary, this library aims to be perfect for use in your CLI if you want some
 
 ## Design philosophy
 
-parse-args is designed to offer full command line parsing control to the developer. This means that it returns all the parsed arguments, but does not handle much before or after that. Most CLIs have their own custom logic with dealing with the arguments, and parse-args fully supports that paradigm. parse-args does not box you into any particular paradigm, but frees you up to add whatever logic you need for your application without creating a burden to you.
+_parse-args_ is designed to offer full command line parsing control to the developer. This means that it returns all the parsed arguments, but does not handle much before or after that. Most CLIs have their own custom logic with dealing with the arguments, and _parse-args_ fully supports that paradigm. _parse-args_ does not box you into any particular paradigm, but frees you up to add whatever logic you need for your application without creating a burden to you.
 
-For example, in the most basic use case, you will just call `parseArgs()` without any arguments (using the default behavior) and get the parsed results. Then you will interpret the parsed results in whatever way you need for your application. The custom logic needed here is hard if not impossible to standardize, and parse-args does not attempt in any way to standardize it.
+For example, in the most basic use case, you will just call `parseArgs()` without any arguments (using the default behavior) and get the parsed results. Then you will interpret the parsed results in whatever way you need for your application. The custom logic needed here is hard if not impossible to standardize, and _parse-args_ does not attempt in any way to standardize it.
 
 ## Simple example
 
@@ -185,10 +185,10 @@ Any option that begins with an underscore `_` is an "API option". Any other stri
 | `_throwOnErrors` | boolean (default to false). | If the parsing encountered any errors, then throw an Error right away (and stop parsing). |
 | `_returnErrors` | boolean (default to false) | If the parsing encountered any errors, then return all the errors as a string array in the `errors` field. This is defaulted to false meaning that all errors will be ignored and not returned at all. |
 | `_verbose` | boolean (default to false) | If the parsing encountered any errors, then print the error right away. |
-| `_keepAll` | boolean (default to false) | When running scripts in Node JS, the first two arguments will always be the node executable path and the script path. Therefore the default behavior when parsing `process.argv` is to always discard the first two arguments. If you specify `_keepAll: true`, then parse-args will not discard the first two arguments. This is useful when you want to pass in the arguments manually instead of defaulting to read from the `process.argv`. |
+| `_keepAll` | boolean (default to false) | When running scripts in Node JS, the first two arguments will always be the node executable path and the script path. Therefore the default behavior when parsing `process.argv` is to always discard the first two arguments. If you specify `_keepAll: true`, then _parse-args_ will not discard the first two arguments. This is useful when you want to pass in the arguments manually instead of defaulting to read from the `process.argv`. |
 | `_flagUnknowns` | boolean (default to false) | If the parsing encountered any unknown options (any user options not given in the `options` object), then it will be treated as an error. |
 | `_ignoreUnknowns` | boolean (default to false) | If the parsing encountered any unknown options (any user options not given in the `options` object), then it will be discarded and not included in the returned result. |
-| `_help` | boolean (default to false) | When true, the long option `help` with alias `?` will be automatically added to the list of user options. So if the user specifies `--help` or `-?` on the command line, parse-args will print the help text. |
+| `_help` | boolean (default to false) | When true, the long option `help` with alias `?` will be automatically added to the list of user options. So if the user specifies `--help` or `-?` on the command line, _parse-args_ will print the help text. |
 | `_helpTemplate` | string (default to empty) | Any string that will be included in the help text. If the string `{OPTIONS}` is found within the template, then it will be replaced with the value of `getHelpText(options)`. If `{OPTIONS}` does not exist, then the template string will be printed first (without a newline character), and then the value of `getHelpText(options)` will be printed. (Actually the two strings will be concatenated and then printed all at once.) |
 | Any other string | object of type `ParseArgsOptionConfig` | This string key will become the long name of the option. This string cannot begin with a dash or underscore character, and cannot be "nonOptions" or "error" which are reserved for the returned result. The value is an object specifying the properties of this option. |
 
@@ -243,8 +243,8 @@ The problem is that it might not be clear if the option does take a value or not
 
 By looking at the command without any background knowledge, there is no way to tell. Therefore, it is much less confusing (IMHO) for the end-user if we always use the equal sign to attach the option value, and treat a space as separating between unrelated arguments.
 
-In parse-args, we always use the equal sign to attach the option value. Thus there is no confusion. 😉
+In _parse-args_, we always use the equal sign to attach the option value. Thus there is no confusion. 😉
 
-## Summary
+## Thank you
 
 Thanks for reading this and I hope this small utility meets all your command-line parsing needs! If not, please feel free to drop me an email at choksheak@gmail.com. 😸
