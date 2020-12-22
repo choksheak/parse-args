@@ -56,7 +56,9 @@ const args = parseArgs({
     alias: "u",
     type: "boolean",
     description:
-      "with -lt: sort by, and show, access time; with -l: show access time and sort by name; otherwise: sort by access time",
+      "with -lt: sort by, and show, access time; " +
+      "with -l: show access time and sort by name; " +
+      "otherwise: sort by access time",
   },
   _help: true,
   _ignoreUnknowns: true,
@@ -163,7 +165,25 @@ The main differences between the class-based implementation and the imperative-b
 
 ## Options
 
+The options configuration is likely the most complex part of understanding and using this library. Note that everything in the options is optional, including the options itself! Therefore you don't need to understand the options config to get the code working right away, but if you use them, it could help you to save writing more code later, thus ultimately saving you time!
 
+In Typescript, just import the `ParseArgsOptions` type to get static type-checking for your options object.
+
+Any option that begins with an underscore `_` is an "API option". Any other string is a "user option".
+
+| Option | Data type | Description |
+| :--------- | :---------- | :---------- |
+| `_throwOnErrors` | Boolean (default to false). | If the parsing encountered any errors, then throw an Error right away (and stop parsing). |
+| `_returnErrors` | Boolean (default to false) | If the parsing encountered any errors, then return all the errors as a string array in the `errors` field. This is defaulted to false meaning that all errors will be ignored and not returned at all. |
+| `_verbose` | Boolean (default to false) | If the parsing encountered any errors, then print the error right away. |
+| `_keepAll` | Boolean (default to false) | When running scripts in Node JS, the first two arguments will always be the node executable path and the script path. Therefore the default behavior when parsing `process.argv` is to always discard the first two arguments. If you specify `_keepAll: true`, then parse-args will not discard the first two arguments. This is useful when you want to pass in the arguments manually instead of defaulting to read from the `process.argv`. |
+| `_flagUnknowns` | Boolean (default to false) | If the parsing encountered any unknown options (any user options not given in the `options` object), then it will be treated as an error. |
+| `_ignoreUnknowns` | Boolean (default to false) | If the parsing encountered any unknown options (any user options not given in the `options` object), then it will be discarded and not included in the returned result. |
+| `_help` | Boolean (default to false) | When true, the long option `help` with alias `?` will be automatically added to the list of user options. So if the user specifies `--help` or `-?` on the command line, parse-args will print the help text. |
+| `_helpTemplate` | String (default to empty) | Any string that will be included in the help text. If the string `{OPTIONS}` is found within the template, then it will be replaced with the value of `getHelpText(options)`. If `{OPTIONS}` does not exist, then the template string will be printed first (without a newline character), and then the value of `getHelpText(options)` will be printed. (Actually the two strings will be concatenated and then printed all at once.) |
+| Any other string | Object of type `ParseArgsOptionConfig` | This string key will become the long name of the option. This string cannot begin with a dash or underscore character. The value is an object specifying the properties of this option. |
+
+### ParseArgsOptionConfig type
 
 ## Summary
 
