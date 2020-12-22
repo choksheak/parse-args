@@ -26,7 +26,7 @@ declare type GenericConfig<T> = {
   allowedValues?: T[];
 };
 
-declare type UntypedConfig = GenericConfig<unknown>;
+declare type UntypedConfig = GenericConfig<boolean>;
 declare type BooleanConfig = { type: "boolean" } & GenericConfig<boolean>;
 declare type StringConfig = { type: "string" } & GenericConfig<string>;
 declare type NumberConfig = { type: "number" } & GenericConfig<number>;
@@ -80,7 +80,7 @@ export declare class ArgsParser {
 
   parse(argv?: string[]): ParseArgsResult;
 
-  getHelpText(): void;
+  getHelpText(): string;
 
   printHelp(): void;
 }

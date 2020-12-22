@@ -185,7 +185,7 @@ Any option that begins with an underscore `_` is an "API option". Any other stri
 | `_throwOnErrors` | boolean (default to false). | If the parsing encountered any errors, then throw an Error right away (and stop parsing). |
 | `_returnErrors` | boolean (default to false) | If the parsing encountered any errors, then return all the errors as a string array in the `errors` field. This is defaulted to false meaning that all errors will be ignored and not returned at all. |
 | `_verbose` | boolean (default to false) | If the parsing encountered any errors, then print the error right away. |
-| `_keepAll` | boolean (default to false) | When running scripts in Node JS, the first two arguments will always be the node executable path and the script path. Therefore the default behavior when parsing `process.argv` is to always discard the first two arguments. If you specify `_keepAll: true`, then _parse-args_ will not discard the first two arguments. This is useful when you want to pass in the arguments manually instead of defaulting to read from the `process.argv`. |
+| `_keepAll` | boolean (default to false) | When running scripts in Node JS, the first two arguments will always be the node executable path and the script path. Therefore the default behavior when parsing `process.argv` is to always discard the first two arguments. If you specify `_keepAll: true`, then _parse-args_ will not discard the first two arguments. This is useful when you want to pass in the arguments manually instead of defaulting to read from `process.argv`. |
 | `_flagUnknowns` | boolean (default to false) | If the parsing encountered any unknown options (any user options not given in the `options` object), then it will be treated as an error. |
 | `_ignoreUnknowns` | boolean (default to false) | If the parsing encountered any unknown options (any user options not given in the `options` object), then it will be discarded and not included in the returned result. |
 | `_help` | boolean (default to false) | When true, the long option `help` with alias `?` will be automatically added to the list of user options. So if the user specifies `--help` or `-?` on the command line, _parse-args_ will print the help text. |
@@ -209,7 +209,7 @@ import { ParseArgsOptionConfig } from "parse-args";
 | required | boolean | If true, then not having this option specified is an error. Note that `defaultValue` and `required: true` cannot be both set at the same time. |
 | description | string | Human-readable text describing this option. Will be printed in the help text. |
 | isValid | (value: T) => boolean | Callback function to check whether the given value is valid or not. This function returns true when the value is valid, or false otherwise. |
-| validationError | string | ((value: T) => string) | Either a string or a callback function to return a string. This error will be included in the list of error messages when `isValid` returns false. If `isValid` is not set, then `validationError` will be unused. |
+| validationError | string `|` ((value: T) => string) | Either a string or a callback function to return a string. This error will be included in the list of error messages when `isValid` returns false. If `isValid` is not set, then `validationError` will be unused. |
 | allowedValues | `T[]` | Array of values that can be specified. Note that you can perform the same check using `isValid`, but this config is just a convenience for a potentially common use case of limiting the input to a list of possible values, like an enum. |
 
 ## Returned result
@@ -236,10 +236,10 @@ node cli.js -f=file.txt  # using equal sign
 node cli.js -f file.txt  # separate with space
 ```
 
-The problem is that it might not be clear if the option does take a value or not. E.g. for `node cli.js -f file.txt`, should it produce 1 or 2?
+The problem is that it might not be clear if the option does take a value or not. E.g. for `node cli.js -f file.txt`, should it return case (1) or case (2) below?
 
-1. `{ f: "file.txt" }`
-2. `{ f: true, nonOptions: ["file.txt"] }`
+Case 1. `{ f: "file.txt" }`
+Case 2. `{ f: true, nonOptions: ["file.txt"] }`
 
 By looking at the command without any background knowledge, there is no way to tell. Therefore, it is much less confusing (IMHO) for the end-user if we always use the equal sign to attach the option value, and treat a space as separating between unrelated arguments.
 
