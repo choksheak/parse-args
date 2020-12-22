@@ -215,10 +215,12 @@ node cli.js -f file.txt  # separate with space
 
 The problem is that it might not be clear if the option does take a value or not. E.g. for `node cli.js -f file.txt`, should it produce 1 or 2?
 
-1. { f: "file.txt" }
-2. { f: true, nonOptions: ["file.txt"] }
+1. `{ f: "file.txt" }`
+2. `{ f: true, nonOptions: ["file.txt"] }`
 
 By looking at the command without any background knowledge, there is no way to tell. Therefore, it is much less confusing (IMHO) for the end-user if we always use the equal sign to attach the option value, and treat a space as separating between unrelated arguments.
+
+In parse-args, we always use the equal sign to attach the option value. Thus there is no confusion. 😉
 
 ## Summary
 
