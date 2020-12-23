@@ -38,7 +38,7 @@ For example, in the most basic use case, you will just call `parseArgs()` withou
 
 Javascript: `print-args.js`
 ```js
-const { parseArgs } = require("parse-args");
+const { parseArgs } = require("@choksheak/parse-args");
 
 const args = parseArgs();
 console.log("args = " + JSON.stringify(args));
@@ -54,7 +54,7 @@ Shell usage and output:
 
 Javascript: `ls.js`
 ```js
-const { parseArgs } = require("parse-args");
+const { parseArgs } = require("@choksheak/parse-args");
 
 const args = parseArgs({
   long: { alias: "l", description: "use a long listing format" },
@@ -117,12 +117,12 @@ The available API methods are:
 
 **CommonJS**
 ```js
-const { parseArgs, printHelp, getHelpText, setOutputPrinter, ArgsParser } = require("parse-args");
+const { parseArgs, printHelp, getHelpText, setOutputPrinter, ArgsParser } = require("@choksheak/parse-args");
 ```
 
 **ES6 / Typescript**
 ```js
-import { parseArgs, printHelp, getHelpText, setOutputPrinter, ArgsParser } from "parse-args";
+import { parseArgs, printHelp, getHelpText, setOutputPrinter, ArgsParser } from "@choksheak/parse-args";
 ```
 
 | API Method | Description |
@@ -151,7 +151,7 @@ class ArgsParser {
 
 Using the class-based implementation should be quite straightforward as well:
 ```ts
-import { ArgsParser } from "parse-args";
+import { ArgsParser } from "@choksheak/parse-args";
 
 const options: ParseArgsOptions = {...};
 const argsParser = new ArgsParser(options);
@@ -175,7 +175,7 @@ The options configuration is likely the most complex part of understanding and u
 
 In Typescript, just import the `ParseArgsOptions` type to get static type-checking for your options object.
 ```
-import { ParseArgsOptions } from "parse-args";
+import { ParseArgsOptions } from "@choksheak/parse-args";
 ```
 
 Any option that begins with an underscore `_` is an "API option". Any other string is a "user option".
@@ -198,7 +198,7 @@ For each user option (option that the user has added), the option can be configu
 
 In Typescript, just import the `ParseArgsOptionConfig` type to get static type-checking for your option config object.
 ```
-import { ParseArgsOptionConfig } from "parse-args";
+import { ParseArgsOptionConfig } from "@choksheak/parse-args";
 ```
 
 | Config | Data type | Description |
@@ -216,7 +216,7 @@ import { ParseArgsOptionConfig } from "parse-args";
 
 In Typescript, just import the `ParseArgsResult` type to get static type-checking for the returned object.
 ```
-import { ParseArgsResult } from "parse-args";
+import { ParseArgsResult } from "@choksheak/parse-args";
 ```
 
 Note that `nonOptions` and `errors` are reserved option names and cannot be used as user option names. i.e. you cannot have a options config that recognizes `--nonOptions` and `--errors`. However you can still read these option names as unknown options.

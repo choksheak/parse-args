@@ -1,5 +1,6 @@
 // Display of all options.
-const { parseArgs } = require("parse-args");
+// const { parseArgs } = require("@choksheak/parse-args");
+const { parseArgs } = require("../index");
 
 // Add type-checking in Typescript:
 // import { ParseArgsOptions } from "parse-args";

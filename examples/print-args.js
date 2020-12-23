@@ -1,6 +1,8 @@
 // Print out the passed in command line arguments.
 // Run with `node print-args.js <pass-in-any-args> ...`.
-const { parseArgs } = require("parse-args");
+
+// const { parseArgs } = require("@choksheak/parse-args");
+const { parseArgs } = require("../index");
 
 const args = parseArgs();
 console.log("args = " + JSON.stringify(args));

@@ -1,5 +1,6 @@
 // Advanced example. Run with `node ls.js --help`.
-const { parseArgs } = require("parse-args");
+// const { parseArgs } = require("@choksheak/parse-args");
+const { parseArgs } = require("../index");
 
 const args = parseArgs({
   long: { alias: "l", description: "use a long listing format" },
