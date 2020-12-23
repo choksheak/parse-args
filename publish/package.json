@@ -1,6 +1,6 @@
 {
   "name": "@choksheak/parse-args",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Tiny and easy-to-use command-line arguments parser.",
   "main": "index.js",
   "typings": "index.d.ts",
